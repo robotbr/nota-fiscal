@@ -7,58 +7,65 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{
-  --bg:#f3f4f6;--panel:#fff;--line:#d9dce1;--text:#1f2328;--muted:#5f6b7a;--head:#f6f7f9;--hover:#f6f8fb;
-  --brand:#1f4e79;--brand-h:#173d5f;--ok:#1a7f37;--warn:#9a6700;--err:#b42318;--dup:#6e4aa8;
-  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f4f7fb;--panel:#fff;--line:#e3e8ef;--text:#172033;--muted:#68748a;--head:#f8fafc;--hover:#f1f5fb;
+  --brand:#4f46e5;--brand-h:#4338ca;--brand-soft:#eeefff;--ok:#15803d;--warn:#a16207;--err:#dc2626;--dup:#7c3aed;
+  --shadow:0 12px 36px rgba(36,48,74,.08);--shadow-sm:0 4px 14px rgba(36,48,74,.07);
+  box-sizing:border-box;color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#14171c;--panel:#1b1f26;--line:#2f3641;--text:#e6e8eb;--muted:#9aa4b2;--head:#20252d;--hover:#222831;
-  --brand:#5b8fc4;--brand-h:#7aa5d4;--ok:#4cc27a;--warn:#e0a63a;--err:#f08080;--dup:#b49be0;}}
+  --bg:#0f1420;--panel:#171d2b;--line:#293247;--text:#edf2ff;--muted:#9ca9c1;--head:#1b2333;--hover:#20293a;
+  --brand:#818cf8;--brand-h:#9da5ff;--brand-soft:#252a4a;--ok:#4ade80;--warn:#fbbf24;--err:#fb7185;--dup:#c4b5fd;
+  --shadow:0 14px 40px rgba(0,0,0,.22);--shadow-sm:0 5px 16px rgba(0,0,0,.18);color-scheme:dark;}}
 :root[data-theme="dark"]{
-  --bg:#14171c;--panel:#1b1f26;--line:#2f3641;--text:#e6e8eb;--muted:#9aa4b2;--head:#20252d;--hover:#222831;
-  --brand:#5b8fc4;--brand-h:#7aa5d4;--ok:#4cc27a;--warn:#e0a63a;--err:#f08080;--dup:#b49be0;}
+  --bg:#0f1420;--panel:#171d2b;--line:#293247;--text:#edf2ff;--muted:#9ca9c1;--head:#1b2333;--hover:#20293a;
+  --brand:#818cf8;--brand-h:#9da5ff;--brand-soft:#252a4a;--ok:#4ade80;--warn:#fbbf24;--err:#fb7185;--dup:#c4b5fd;
+  --shadow:0 14px 40px rgba(0,0,0,.22);--shadow-sm:0 5px 16px rgba(0,0,0,.18);color-scheme:dark;}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-.wrap{max-width:1280px;margin:0 auto;padding:24px 20px 36px}
-header{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
-h1{font-size:20px;font-weight:600;margin:0 0 4px}
-header p{margin:0;color:var(--muted);font-size:13px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px;margin-bottom:14px}
-.drop{border:1px dashed #9aa4b2;border-radius:4px;padding:22px 16px;text-align:center;background:var(--head);cursor:pointer;outline:none}
+body{margin:0;background:radial-gradient(circle at 85% 0%, var(--brand-soft) 0, transparent 28rem),var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;transition:background-color .25s,color .25s}
+.wrap{max-width:1280px;margin:0 auto;padding:28px 20px 40px}
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;padding:4px 2px 18px;border-bottom:1px solid var(--line)}
+h1{font-size:24px;line-height:1.2;font-weight:750;letter-spacing:-.025em;margin:0 0 6px}
+header p{margin:0;color:var(--muted);font-size:13.5px;max-width:680px}
+.theme-toggle{display:inline-flex;align-items:center;gap:8px;flex:none;height:38px;padding:0 12px;border-radius:999px;box-shadow:var(--shadow-sm)}
+.theme-toggle .icon{display:grid;place-items:center;width:18px;height:18px}
+.theme-toggle svg{width:16px;height:16px}
+.panel{background:color-mix(in srgb,var(--panel) 96%,transparent);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow)}
+.drop{border:1.5px dashed var(--line);border-radius:12px;padding:26px 16px;text-align:center;background:var(--head);cursor:pointer;outline:none;transition:.2s}
 .drop:hover,.drop:focus-visible,.drop.over{border-color:var(--brand);background:var(--hover)}
-.drop b{display:block;font-weight:600;margin-bottom:2px}
+.drop b{display:block;font-size:15px;font-weight:700;margin-bottom:3px}
 .drop .s{color:var(--muted);font-size:13px}
 .drop .acts{justify-content:center;margin-top:12px}
-button,.btn{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:4px;padding:6px 12px;cursor:pointer}
-button:hover{background:var(--hover)}
+button,.btn{font:inherit;font-size:13px;font-weight:650;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:7px 12px;cursor:pointer;transition:.16s ease}
+button:hover{background:var(--hover);border-color:var(--brand);transform:translateY(-1px)}
 button:disabled{opacity:.5;cursor:not-allowed}
 button.primary{background:var(--brand);border-color:var(--brand);color:#fff}
 button.primary:hover{background:var(--brand-h)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button.primary{color:#0e1620}}
-[data-theme="dark"] button.primary{color:#0e1620}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button.primary{color:#111827}}
+[data-theme="dark"] button.primary{color:#111827}
 button.mini{padding:3px 8px;font-size:12px}
 button.mini.primary{background:transparent;color:var(--brand);border-color:var(--brand)}
 button.mini.primary:hover{background:var(--hover)}
 button.mini.ghost{color:var(--muted)}
-.status{margin-top:10px;font-size:13px;color:var(--muted);min-height:18px}
+.status{margin-top:12px;font-size:13px;color:var(--muted);min-height:18px}
 .status.err{color:var(--err)}
 .bar{height:3px;background:var(--line);margin-top:8px;overflow:hidden;display:none}
 .bar i{display:block;height:100%;width:0;background:var(--brand);transition:width .2s}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--panel);border:1px solid var(--line);border-radius:4px;margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:16px;box-shadow:var(--shadow-sm);overflow:hidden}
 .stat{padding:12px 16px;border-right:1px solid var(--line)}
 .stat:last-child{border-right:0}
 .stat small{display:block;font-size:12px;color:var(--muted);margin-bottom:2px}
-.stat div{font-size:20px;font-weight:600}
-.banner{padding:10px 14px;margin-bottom:14px;font-size:13px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--muted);border-radius:4px}
+.stat div{font-size:22px;font-weight:750;letter-spacing:-.02em}
+.banner{padding:12px 15px;margin-bottom:16px;font-size:13px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--muted);border-radius:10px;box-shadow:var(--shadow-sm)}
 .banner.ok{border-left-color:var(--ok)}.banner.warn{border-left-color:var(--warn)}.banner.err{border-left-color:var(--err)}
 .head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .head h2{margin:0;font-size:15px;font-weight:600}
 .head p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
 .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-input[type=search]{padding:6px 10px;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--text);font:inherit;font-size:13px;min-width:220px}
-input[type=search]:focus{outline:2px solid var(--brand);outline-offset:-1px}
-.tw{overflow:auto;border:1px solid var(--line);border-radius:4px;max-height:62vh}
+input[type=search]{padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;font-size:13px;min-width:220px}
+input[type=search]:focus{outline:2px solid var(--brand);outline-offset:-1px;border-color:var(--brand)}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:62vh}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:1020px}
 th{position:sticky;top:0;z-index:1;text-align:left;background:var(--head);color:var(--muted);font-weight:600;font-size:12px;padding:8px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
 td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
@@ -73,14 +80,44 @@ tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:var(--hover)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,10px);background:#2b3138;color:#fff;padding:8px 14px;border-radius:4px;font-size:13px;opacity:0;pointer-events:none;transition:.2s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 footer{color:var(--muted);font-size:12px;margin-top:18px}
-@media(max-width:820px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+@media(max-width:820px){
+  .wrap{padding:20px 12px 32px}
+  header{align-items:center}
+  h1{font-size:20px}
+  header p{max-width:520px}
+  .theme-toggle{height:36px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .panel{padding:14px}
+  .head{align-items:flex-start}
+  input[type=search]{width:100%;min-width:0}
+  .head .acts{width:100%}
+}
+@media(max-width:520px){
+  header{align-items:flex-start}
+  header p{font-size:12.5px}
+  .theme-toggle{width:38px;padding:0;justify-content:center}
+  #themeLabel{display:none}
+  .drop{padding:22px 10px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{padding:10px 12px}
+  .stat div{font-size:19px}
+  .head .acts>*{flex:1 1 auto}
+  input[type=search]{flex-basis:100%!important}
+}
 </style>
 </head>
 <body>
 <main class="wrap">
 <header>
-  <h1>Extração de chaves de acesso — NF-e</h1>
-  <p>Leitura de número e chave de acesso a partir de DANFEs em PDF. A chave é conferida pelo dígito verificador.</p>
+  <div>
+    <h1>Extração de chaves de acesso — NF-e</h1>
+    <p>Leitura de número e chave de acesso a partir de DANFEs em PDF. A chave é conferida pelo dígito verificador.</p>
+  </div>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema" title="Alternar tema claro/escuro">
+    <span class="icon" id="themeIcon" aria-hidden="true"></span>
+    <span id="themeLabel">Tema escuro</span>
+  </button>
 </header>
 
 <section class="panel">
@@ -128,6 +165,26 @@ footer{color:var(--muted);font-size:12px;margin-top:18px}
 
 <script>
 const $ = id => document.getElementById(id);
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const dark = theme === "dark";
+  $("themeLabel").textContent = dark ? "Tema claro" : "Tema escuro";
+  $("themeToggle").setAttribute("aria-label", dark ? "Ativar tema claro" : "Ativar tema escuro");
+  $("themeIcon").innerHTML = dark
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+}
+
+const savedTheme = localStorage.getItem("nfe-theme");
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+applyTheme(savedTheme || (systemDark ? "dark" : "light"));
+$("themeToggle").addEventListener("click", () => {
+  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem("nfe-theme", next);
+  applyTheme(next);
+});
+
 const state = { rows: [], files: new Map(), nextId: 1 };
 
 const UF = {11:"RO",12:"AC",13:"AM",14:"RR",15:"PA",16:"AP",17:"TO",21:"MA",22:"PI",23:"CE",24:"RN",25:"PB",26:"PE",27:"AL",28:"SE",29:"BA",31:"MG",32:"ES",33:"RJ",35:"SP",41:"PR",42:"SC",43:"RS",50:"MS",51:"MT",52:"GO",53:"DF"};
@@ -297,7 +354,7 @@ function render() {
       <td class="mono key">${esc(r.key ? fmtKey(r.key) : "—")}</td>
       <td>${badge}${r.note ? `<span class="note">${esc(r.note)}</span>` : ""}</td>
       <td><div class="ra">
-        ${r.key ? `<button class="mini primary" data-a="key" data-id="${r.id}">Copiar chave</button>` : ""}
+        ${r.key ? `<button class="mini secondary" data-a="key" data-id="${r.id}">Copiar chave</button>` : ""}
         <button class="mini secondary" data-a="row" data-id="${r.id}">Copiar linha</button>
         <button class="mini ghost" data-a="del" data-id="${r.id}" >Remover</button>
       </div></td></tr>`;
